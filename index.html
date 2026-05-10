@@ -1,394 +1,556 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>🎄 2025 圣诞快乐 - 专属网页</title>
     <style>
-        body { margin: 0; background: #020202; overflow: hidden; font-family: "Microsoft YaHei", sans-serif; }
-        
+        body {
+            margin: 0;
+            background: #020202;
+            overflow: hidden;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
         /* 霓虹播放器面板 */
         #music-panel {
-            position: fixed; top: 20px; left: 20px; z-index: 100;
-            background: rgba(0, 0, 0, 0.7); border: 1px solid #ff0055;
-            box-shadow: 0 0 10px #ff0055; border-radius: 12px;
-            padding: 15px; color: #fff; width: 260px;
-            backdrop-filter: blur(8px); transition: 0.3s;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #ff0055;
+            box-shadow: 0 0 10px #ff0055;
+            border-radius: 12px;
+            padding: 15px;
+            color: #fff;
+            width: 260px;
+            backdrop-filter: blur(8px);
+            transition: 0.3s;
+            max-width: calc(100vw - 40px);
         }
-        #music-panel:hover { box-shadow: 0 0 20px #ff0055; }
-        .song-title { font-size: 13px; margin-bottom: 12px; color: #ff0055; text-shadow: 0 0 2px #ff0055; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .controls { display: flex; justify-content: center; gap: 20px; }
-        .btn { background: transparent; border: 1px solid #fff; color: #fff; cursor: pointer; width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
-        .btn:hover { background: #ff0055; border-color: #ff0055; box-shadow: 0 0 10px #ff0055; }
+        #music-panel:hover {
+            box-shadow: 0 0 20px #ff0055;
+        }
+        .song-title {
+            font-size: 13px;
+            margin-bottom: 12px;
+            color: #ff0055;
+            text-shadow: 0 0 2px #ff0055;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .btn {
+            background: transparent;
+            border: 1px solid #fff;
+            color: #fff;
+            cursor: pointer;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            font-size: 14px;
+        }
+        .btn:hover {
+            background: #ff0055;
+            border-color: #ff0055;
+            box-shadow: 0 0 10px #ff0055;
+        }
 
         /* 底部操作区 */
         #bottom-controls {
-            position: fixed; bottom: 30px; width: 100%; text-align: center; z-index: 100;
+            position: fixed;
+            bottom: 30px;
+            width: 100%;
+            text-align: center;
+            z-index: 100;
         }
         .glow-btn {
-            background: linear-gradient(45deg, #11998e, #38ef7d); 
-            border: none; color: white;
-            padding: 12px 30px; font-size: 16px; border-radius: 50px; cursor: pointer;
-            box-shadow: 0 4px 15px rgba(56, 239, 125, 0.4); margin: 0 10px; font-weight: bold;
+            background: linear-gradient(45deg, #11998e, #38ef7d);
+            border: none;
+            color: white;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(56, 239, 125, 0.4);
+            margin: 0 8px;
+            font-weight: bold;
             transition: all 0.3s;
+            touch-action: manipulation;
         }
-        .glow-btn:hover { transform: scale(1.05); box-shadow: 0 6px 20px rgba(56, 239, 125, 0.6); }
-        
+        .glow-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(56, 239, 125, 0.6);
+        }
         .magic-btn {
             background: linear-gradient(45deg, #ff9966, #ff5e62);
             box-shadow: 0 4px 15px rgba(255, 94, 98, 0.4);
         }
-        .magic-btn:hover { box-shadow: 0 6px 20px rgba(255, 94, 98, 0.6); }
+        .magic-btn:hover {
+            box-shadow: 0 6px 20px rgba(255, 94, 98, 0.6);
+        }
 
         #toast {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.85); color: #fff; padding: 15px 30px; border-radius: 8px;
-            border: 1px solid #444; z-index: 200; display: none; text-align: center;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.85);
+            color: #fff;
+            padding: 15px 30px;
+            border-radius: 8px;
+            border: 1px solid #444;
+            z-index: 200;
+            display: none;
+            text-align: center;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 600px) {
+            #music-panel {
+                top: 10px;
+                left: 10px;
+                width: 220px;
+                padding: 12px;
+            }
+            .controls {
+                gap: 12px;
+            }
+            .glow-btn {
+                padding: 10px 18px;
+                font-size: 14px;
+                margin: 0 4px;
+            }
         }
     </style>
 </head>
 <body>
-
-<div id="music-panel">
-    <div class="song-title" id="current-song-name">🎵 点击播放开启圣诞</div>
-    <div class="controls">
-        <button class="btn" onclick="prevSong()">⏮</button>
-        <button class="btn" onclick="togglePlay()" id="play-btn">▶</button>
-        <button class="btn" onclick="nextSong()">⏭</button>
+    <div id="music-panel">
+        <div class="song-title" id="current-song-name">🎵 点击播放开启圣诞</div>
+        <div class="controls">
+            <button class="btn" onclick="prevSong()" aria-label="上一首">⏮</button>
+            <button class="btn" onclick="togglePlay()" id="play-btn" aria-label="播放">▶</button>
+            <button class="btn" onclick="nextSong()" aria-label="下一首">⏭</button>
+        </div>
     </div>
-</div>
 
-<div id="bottom-controls">
-    <button class="glow-btn" onclick="document.getElementById('file-input').click()">📷 挂上照片</button>
-    <button class="glow-btn magic-btn" onclick="triggerMagic()">✨ 许愿时刻</button>
-</div>
+    <div id="bottom-controls">
+        <button class="glow-btn" onclick="document.getElementById('file-input').click()">📷 挂上照片</button>
+        <button class="glow-btn magic-btn" onclick="triggerMagic()">✨ 许愿时刻</button>
+    </div>
 
-<div id="toast"></div>
-<input type="file" id="file-input" style="display:none" accept="image/*" onchange="handleUpload(event)">
+    <div id="toast"></div>
+    <input type="file" id="file-input" style="display:none" accept="image/*" onchange="handleUpload(event)" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 
-<script>
-    // --- 你的专属歌单 ---
-    const playlist = [
-        "Frank Sinatra - Let It Snow! Let It Snow! Let It Snow! (Official Music Video).mp3",
-        "We Wish You a Merry Christmas with Lyrics _ Christmas Carol & Song.mp3",
-        "Wham! - Last Christmas (Official Video) 0.mp3",
-        "聖夜讃歌(feat.初音ミク) 0.mp3",
-        "陳奕迅 Eason Chan《Lonely Christmas》[MV].mp3",
-        "陳奕迅 Eason Chan《聖誕結(國)[OT_Lonely Christmas]》[Official MV].mp3"
-    ];
+    <script>
+        // --- 你的专属歌单 ---
+        const playlist = [
+            "Frank Sinatra - Let It Snow! Let It Snow! Let It Snow! (Official Music Video).mp3",
+            "We Wish You a Merry Christmas with Lyrics _ Christmas Carol & Song.mp3",
+            "Wham! - Last Christmas (Official Video) 0.mp3",
+            "聖夜讃歌(feat.初音ミク) 0.mp3",
+            "陳奕迅 Eason Chan《Lonely Christmas》[MV].mp3",
+            "陳奕迅 Eason Chan《聖誕結(國)[OT_Lonely Christmas]》[Official MV].mp3"
+        ];
 
-    let currentIdx = 0;
-    let audio = new Audio();
-    let isPlaying = false;
-    audio.addEventListener('ended', nextSong);
+        let currentIdx = 0;
+        let audio = new Audio();
+        let isPlaying = false;
+        // 保存原始颜色数组备份，用于许愿后恢复
+        let originalColorArray = null;
 
-    // --- 3D 场景变量 ---
-    let scene, camera, renderer, controls, clock;
-    let treeSystem, starMesh;
-    let neonStrips = [];
-    let ornaments = [];
-    let gifts = [];
-    let raycaster = new THREE.Raycaster();
-    let mouse = new THREE.Vector2();
-
-    init();
-    animate();
-
-    function init() {
-        clock = new THREE.Clock();
-        scene = new THREE.Scene();
-        scene.fog = new THREE.FogExp2(0x020202, 0.025);
-
-        camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 1000);
-        camera.position.set(0, 5, 17);
-
-        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        renderer.setPixelRatio(window.devicePixelRatio);
-        document.body.appendChild(renderer.domElement);
-
-        controls = new THREE.OrbitControls(camera, renderer.domElement);
-        controls.enableDamping = true;
-        controls.autoRotate = true;
-        controls.autoRotateSpeed = 0.8;
-
-        // 灯光：暖光照亮红绿银
-        const ambient = new THREE.AmbientLight(0xffffff, 0.3);
-        scene.add(ambient);
-        const pointLight = new THREE.PointLight(0xffd700, 1.2, 40);
-        pointLight.position.set(5, 8, 5);
-        scene.add(pointLight);
-
-        // 构建场景
-        buildTriColorTree();      // 红绿银粒子树
-        buildNeonStrips();        // 动态灯带
-        buildOrnaments();         // 表面装饰
-        buildStar();              // 顶星
-        buildGifts();             // 礼物盒
-        buildFloor();             // 地面
-
-        window.addEventListener('resize', onResize);
-        window.addEventListener('click', onClick);
-        
-        // 预加载第一首歌但不播放（等待用户点击）
-        audio.src = playlist[0];
-    }
-
-    // 1. 红绿银三色粒子树
-    function buildTriColorTree() {
-        const particleCount = 50000;
-        const geometry = new THREE.BufferGeometry();
-        const positions = [];
-        const colors = [];
-
-        // 配色方案
-        const palette = {
-            green: [new THREE.Color('#0f4d19'), new THREE.Color('#228b22')], // 深绿与森林绿
-            red:   [new THREE.Color('#d90429'), new THREE.Color('#ef233c')], // 圣诞红
-            silver:[new THREE.Color('#e0e0e0'), new THREE.Color('#ffffff')]  // 银白
-        };
-
-        for (let i = 0; i < particleCount; i++) {
-            const h = Math.random() * 13; 
-            const maxRadius = (13 - h) * 0.55;
-            // 粒子分布：更集中于表面，显得树比较实
-            const r = maxRadius * Math.pow(Math.random(), 0.4);
-            const angle = Math.random() * Math.PI * 2;
-
-            const x = Math.cos(angle) * r;
-            const y = h - 6.5;
-            const z = Math.sin(angle) * r;
-
-            positions.push(x, y, z);
-
-            // 颜色分配逻辑：60% 绿, 25% 红, 15% 银
-            let color;
-            const rand = Math.random();
-            if (rand < 0.6) {
-                // 绿色基底
-                color = palette.green[Math.floor(Math.random()*2)];
-            } else if (rand < 0.85) {
-                // 红色点缀
-                color = palette.red[Math.floor(Math.random()*2)];
-            } else {
-                // 银色闪光
-                color = palette.silver[Math.floor(Math.random()*2)];
-            }
-            colors.push(color.r, color.g, color.b);
-        }
-
-        geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-        geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-
-        const material = new THREE.PointsMaterial({
-            size: 0.09,
-            vertexColors: true,
-            transparent: true,
-            opacity: 0.9,
-            map: createCircleTexture(),
-            depthWrite: false,
-            blending: THREE.AdditiveBlending // 发光叠加效果
-        });
-
-        treeSystem = new THREE.Points(geometry, material);
-        scene.add(treeSystem);
-    }
-
-    // 2. 霓虹宽灯带
-    function buildNeonStrips() {
-        const stripCount = 2; // 两条
-        const colors = [0xffd700, 0x00ffff]; // 金色与青色霓虹
-
-        for (let j = 0; j < stripCount; j++) {
-            const points = [];
-            for (let i = 0; i <= 120; i++) {
-                const t = i / 120;
-                const h = t * 13 - 6.5;
-                const r = (13 - (h + 6.5)) * 0.55 + 0.3; // 略微浮于树表面
-                const angle = t * Math.PI * 8 + (j * Math.PI); // 螺旋圈数
-                points.push(new THREE.Vector3(Math.cos(angle)*r, h, Math.sin(angle)*r));
-            }
-            const curve = new THREE.CatmullRomCurve3(points);
-            const tubeGeo = new THREE.TubeGeometry(curve, 120, 0.08, 8, false);
-            const tubeMat = new THREE.MeshStandardMaterial({
-                color: colors[j],
-                emissive: colors[j],
-                emissiveIntensity: 2, // 强霓虹感
-                transparent: true, opacity: 0.8
-            });
-            const mesh = new THREE.Mesh(tubeGeo, tubeMat);
-            scene.add(mesh);
-            neonStrips.push(mesh);
-        }
-    }
-
-    // 3. 表面装饰
-    function buildOrnaments() {
-        const sphereGeo = new THREE.SphereGeometry(0.2, 16, 16);
-        for(let i=0; i<60; i++) {
-            const h = Math.random() * 12 - 6;
-            const r = (13 - (h+6.5)) * 0.55 + 0.1; 
-            const a = Math.random() * Math.PI * 2;
-            
-            const mesh = new THREE.Mesh(sphereGeo, new THREE.MeshPhongMaterial({
-                color: Math.random()>0.5 ? 0xff0000 : 0xc0c0c0, // 只有红和银球
-                shininess: 100,
-                emissive: 0x220000
-            }));
-            
-            // 贴合表面并朝外
-            mesh.position.set(Math.cos(a)*r, h, Math.sin(a)*r);
-            mesh.lookAt(0, h, 0); 
-            // 修正朝向（让球不要半个埋进去）
-            mesh.position.add(mesh.position.clone().normalize().multiplyScalar(0.1));
-            
-            scene.add(mesh);
-            ornaments.push(mesh);
-        }
-    }
-
-    // 4. 顶星
-    function buildStar() {
-        const geo = new THREE.OctahedronGeometry(0.7, 0);
-        const mat = new THREE.MeshBasicMaterial({ color: 0xffef99 });
-        starMesh = new THREE.Mesh(geo, mat);
-        starMesh.position.y = 6.8;
-        
-        // 光晕
-        const spriteMat = new THREE.SpriteMaterial({ 
-            map: createCircleTexture(), color: 0xffd700, transparent: true, opacity: 0.6 
-        });
-        const glow = new THREE.Sprite(spriteMat);
-        glow.scale.set(4, 4, 1);
-        starMesh.add(glow);
-        
-        scene.add(starMesh);
-    }
-
-    function buildGifts() {
-        const colors = [0xd90429, 0x2b9348, 0xffd700]; 
-        for(let i=0; i<10; i++) {
-            const box = new THREE.Mesh(new THREE.BoxGeometry(0.8,0.8,0.8), new THREE.MeshLambertMaterial({color: colors[i%3]}));
-            const a = Math.random() * Math.PI * 2;
-            const d = 5 + Math.random() * 3;
-            box.position.set(Math.cos(a)*d, -6.1, Math.sin(a)*d);
-            box.rotation.y = Math.random();
-            box.userData = { isGift: true };
-            scene.add(box);
-            gifts.push(box);
-        }
-    }
-
-    function buildFloor() {
-        const plane = new THREE.Mesh(new THREE.CircleGeometry(20, 32), new THREE.MeshStandardMaterial({color: 0x111111, roughness:0.2}));
-        plane.rotation.x = -Math.PI/2;
-        plane.position.y = -6.5;
-        scene.add(plane);
-    }
-
-    // 辅助函数
-    function createCircleTexture() {
-        const cvs = document.createElement('canvas'); cvs.width=32; cvs.height=32;
-        const ctx = cvs.getContext('2d');
-        const g = ctx.createRadialGradient(16,16,0,16,16,16);
-        g.addColorStop(0, 'rgba(255,255,255,1)');
-        g.addColorStop(1, 'rgba(255,255,255,0)');
-        ctx.fillStyle=g; ctx.beginPath(); ctx.arc(16,16,16,0,Math.PI*2); ctx.fill();
-        return new THREE.CanvasTexture(cvs);
-    }
-
-    // 交互逻辑
-    function togglePlay() {
-        if(audio.paused) {
-            audio.play().then(() => {
-                isPlaying = true;
-                document.getElementById('play-btn').innerText = "⏸";
-                document.getElementById('current-song-name').innerText = "🎵 " + playlist[currentIdx];
-            }).catch(() => showToast("⚠️ 请确保音乐文件在同一文件夹！"));
-        } else {
-            audio.pause();
+        audio.addEventListener('ended', nextSong);
+        audio.addEventListener('error', () => {
+            showToast("⚠️ 歌曲加载失败，请检查文件是否存在");
             isPlaying = false;
             document.getElementById('play-btn').innerText = "▶";
-        }
-    }
-
-    function nextSong() {
-        currentIdx = (currentIdx + 1) % playlist.length;
-        audio.src = playlist[currentIdx];
-        if(isPlaying) audio.play();
-        document.getElementById('current-song-name').innerText = "🎵 " + playlist[currentIdx];
-    }
-    
-    function prevSong() {
-        currentIdx = (currentIdx - 1 + playlist.length) % playlist.length;
-        audio.src = playlist[currentIdx];
-        if(isPlaying) audio.play();
-        document.getElementById('current-song-name').innerText = "🎵 " + playlist[currentIdx];
-    }
-
-    function handleUpload(e) {
-        const f = e.target.files[0];
-        if(!f) return;
-        const r = new FileReader();
-        r.onload = (evt) => {
-            const tex = new THREE.TextureLoader().load(evt.target.result);
-            const m = new THREE.Mesh(new THREE.PlaneGeometry(1.5,1.5), new THREE.MeshBasicMaterial({map:tex, side:2}));
-            const h = Math.random()*5 - 2; const rad = (13-(h+6.5))*0.5+0.8; const ang = Math.random()*6.28;
-            m.position.set(Math.cos(ang)*rad, h, Math.sin(ang)*rad);
-            m.lookAt(0,h,0);
-            scene.add(m);
-            showToast("📸 照片已挂上树梢！");
-        };
-        r.readAsDataURL(f);
-    }
-
-    function triggerMagic() {
-        showToast("✨ 许愿成功：2026 万事胜意！");
-        // 简单特效：所有粒子瞬间变成金色
-        const colors = treeSystem.geometry.attributes.color;
-        for(let i=0; i<colors.count; i++) {
-            colors.setXYZ(i, 1, 0.84, 0); // Gold
-        }
-        colors.needsUpdate = true;
-        setTimeout(() => {
-            // 3秒后刷新页面恢复（或写复杂逻辑恢复）
-            location.reload(); 
-        }, 3000);
-    }
-
-    function onClick(e) {
-        if(e.target.tagName==='BUTTON') return;
-        mouse.x = (e.clientX/window.innerWidth)*2-1; mouse.y = -(e.clientY/window.innerHeight)*2+1;
-        raycaster.setFromCamera(mouse, camera);
-        if(raycaster.intersectObjects(gifts, true).length > 0) {
-            showToast("🎁 礼物里装着你的好运！");
-        }
-    }
-
-    function showToast(msg) {
-        const t = document.getElementById('toast'); t.innerText=msg; t.style.display='block';
-        setTimeout(()=>t.style.display='none', 2500);
-    }
-
-    function animate() {
-        requestAnimationFrame(animate);
-        const t = clock.getElapsedTime();
-        neonStrips.forEach((s,i) => {
-            const hue = (t*0.1 + i*0.5)%1;
-            s.material.color.setHSL(hue, 1, 0.5);
-            s.material.emissive.setHSL(hue, 1, 0.5);
-            s.rotation.y = -t*0.2;
         });
-        ornaments.forEach(o => o.rotation.y += 0.02);
-        starMesh.rotation.y = -t;
-        controls.update();
-        renderer.render(scene, camera);
-    }
-    //祝看到这里的你圣诞快乐！如果是从微信过来的，快来找我领取神秘礼物：）
-    
-    function onResize(){ camera.aspect=window.innerWidth/window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); }
-</script>
+
+        // --- 3D 场景变量 ---
+        let scene, camera, renderer, controls, clock;
+        let treeSystem, starMesh;
+        let neonStrips = [];
+        let ornaments = [];
+        let gifts = [];
+
+        init();
+        animate();
+
+        function init() {
+            clock = new THREE.Clock();
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x020202, 0.025);
+
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 5, 17);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            // 性能优化：限制像素比，保证移动端流畅
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            document.body.appendChild(renderer.domElement);
+
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.autoRotate = true;
+            controls.autoRotateSpeed = 0.8;
+
+            // 灯光：暖光照亮红绿银
+            const ambient = new THREE.AmbientLight(0xffffff, 0.3);
+            scene.add(ambient);
+            const pointLight = new THREE.PointLight(0xffd700, 1.2, 40);
+            pointLight.position.set(5, 8, 5);
+            scene.add(pointLight);
+
+            // 构建场景
+            buildTriColorTree();
+            buildNeonStrips();
+            buildOrnaments();
+            buildStar();
+            buildGifts();
+            buildFloor();
+
+            window.addEventListener('resize', onResize);
+            window.addEventListener('click', onClick);
+
+            // 预加载第一首歌但不播放
+            loadSong(0);
+        }
+
+        // 安全加载歌曲（不自动播放）
+        function loadSong(index) {
+            currentIdx = index;
+            audio.src = playlist[index];
+            document.getElementById('current-song-name').innerText = "🎵 " + playlist[index];
+            // 如果本来在播放，切换歌曲后尝试继续播放
+            if (isPlaying) {
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(() => {
+                        isPlaying = false;
+                        document.getElementById('play-btn').innerText = "▶";
+                        showToast("⏸ 播放被浏览器阻止，请再次点击播放");
+                    });
+                }
+            }
+        }
+
+        // 1. 红绿银三色粒子树
+        function buildTriColorTree() {
+            const particleCount = 50000;
+            const geometry = new THREE.BufferGeometry();
+            const positions = [];
+            const colors = [];
+
+            const palette = {
+                green: [new THREE.Color('#0f4d19'), new THREE.Color('#228b22')],
+                red: [new THREE.Color('#d90429'), new THREE.Color('#ef233c')],
+                silver: [new THREE.Color('#e0e0e0'), new THREE.Color('#ffffff')]
+            };
+
+            for (let i = 0; i < particleCount; i++) {
+                const h = Math.random() * 13;
+                const maxRadius = (13 - h) * 0.55;
+                const r = maxRadius * Math.pow(Math.random(), 0.4);
+                const angle = Math.random() * Math.PI * 2;
+
+                positions.push(Math.cos(angle) * r, h - 6.5, Math.sin(angle) * r);
+
+                let color;
+                const rand = Math.random();
+                if (rand < 0.6) {
+                    color = palette.green[Math.floor(Math.random() * 2)];
+                } else if (rand < 0.85) {
+                    color = palette.red[Math.floor(Math.random() * 2)];
+                } else {
+                    color = palette.silver[Math.floor(Math.random() * 2)];
+                }
+                colors.push(color.r, color.g, color.b);
+            }
+
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+            // 备份原始颜色数组（深拷贝）
+            originalColorArray = new Float32Array(colors);
+
+            const material = new THREE.PointsMaterial({
+                size: 0.09,
+                vertexColors: true,
+                transparent: true,
+                opacity: 0.9,
+                map: createCircleTexture(),
+                depthWrite: false,
+                blending: THREE.AdditiveBlending
+            });
+
+            treeSystem = new THREE.Points(geometry, material);
+            scene.add(treeSystem);
+        }
+
+        // 2. 霓虹宽灯带
+        function buildNeonStrips() {
+            const stripCount = 2;
+            const stripColors = [0xffd700, 0x00ffff];
+
+            for (let j = 0; j < stripCount; j++) {
+                const points = [];
+                for (let i = 0; i <= 120; i++) {
+                    const t = i / 120;
+                    const h = t * 13 - 6.5;
+                    const r = (13 - (h + 6.5)) * 0.55 + 0.3;
+                    const angle = t * Math.PI * 8 + j * Math.PI;
+                    points.push(new THREE.Vector3(Math.cos(angle) * r, h, Math.sin(angle) * r));
+                }
+                const curve = new THREE.CatmullRomCurve3(points);
+                const tubeGeo = new THREE.TubeGeometry(curve, 120, 0.08, 8, false);
+                const tubeMat = new THREE.MeshStandardMaterial({
+                    color: stripColors[j],
+                    emissive: stripColors[j],
+                    emissiveIntensity: 2,
+                    transparent: true,
+                    opacity: 0.8
+                });
+                const mesh = new THREE.Mesh(tubeGeo, tubeMat);
+                scene.add(mesh);
+                neonStrips.push(mesh);
+            }
+        }
+
+        // 3. 表面装饰
+        function buildOrnaments() {
+            const sphereGeo = new THREE.SphereGeometry(0.2, 16, 16);
+            for (let i = 0; i < 60; i++) {
+                const h = Math.random() * 12 - 6;
+                const r = (13 - (h + 6.5)) * 0.55 + 0.1;
+                const a = Math.random() * Math.PI * 2;
+
+                const mesh = new THREE.Mesh(sphereGeo, new THREE.MeshPhongMaterial({
+                    color: Math.random() > 0.5 ? 0xff0000 : 0xc0c0c0,
+                    shininess: 100,
+                    emissive: 0x220000
+                }));
+
+                mesh.position.set(Math.cos(a) * r, h, Math.sin(a) * r);
+                mesh.lookAt(0, h, 0);
+                mesh.position.add(mesh.position.clone().normalize().multiplyScalar(0.1));
+
+                scene.add(mesh);
+                ornaments.push(mesh);
+            }
+        }
+
+        // 4. 顶星
+        function buildStar() {
+            const geo = new THREE.OctahedronGeometry(0.7, 0);
+            const mat = new THREE.MeshBasicMaterial({ color: 0xffef99 });
+            starMesh = new THREE.Mesh(geo, mat);
+            starMesh.position.y = 6.8;
+
+            const spriteMat = new THREE.SpriteMaterial({
+                map: createCircleTexture(),
+                color: 0xffd700,
+                transparent: true,
+                opacity: 0.6
+            });
+            const glow = new THREE.Sprite(spriteMat);
+            glow.scale.set(4, 4, 1);
+            starMesh.add(glow);
+
+            scene.add(starMesh);
+        }
+
+        function buildGifts() {
+            const giftColors = [0xd90429, 0x2b9348, 0xffd700];
+            for (let i = 0; i < 10; i++) {
+                const box = new THREE.Mesh(
+                    new THREE.BoxGeometry(0.8, 0.8, 0.8),
+                    new THREE.MeshLambertMaterial({ color: giftColors[i % 3] })
+                );
+                const a = Math.random() * Math.PI * 2;
+                const d = 5 + Math.random() * 3;
+                box.position.set(Math.cos(a) * d, -6.1, Math.sin(a) * d);
+                box.rotation.y = Math.random();
+                box.userData = { isGift: true };
+                scene.add(box);
+                gifts.push(box);
+            }
+        }
+
+        function buildFloor() {
+            const plane = new THREE.Mesh(
+                new THREE.CircleGeometry(20, 32),
+                new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.2 })
+            );
+            plane.rotation.x = -Math.PI / 2;
+            plane.position.y = -6.5;
+            scene.add(plane);
+        }
+
+        function createCircleTexture() {
+            const cvs = document.createElement('canvas');
+            cvs.width = 32;
+            cvs.height = 32;
+            const ctx = cvs.getContext('2d');
+            const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+            gradient.addColorStop(0, 'rgba(255,255,255,1)');
+            gradient.addColorStop(1, 'rgba(255,255,255,0)');
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(16, 16, 16, 0, Math.PI * 2);
+            ctx.fill();
+            return new THREE.CanvasTexture(cvs);
+        }
+
+        // --- 音乐控制 ---
+        function togglePlay() {
+            if (audio.paused) {
+                const playPromise = audio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        isPlaying = true;
+                        document.getElementById('play-btn').innerText = "⏸";
+                        document.getElementById('current-song-name').innerText = "🎵 " + playlist[currentIdx];
+                    }).catch(() => {
+                        showToast("⚠️ 播放失败，请检查音乐文件或浏览器设置");
+                        isPlaying = false;
+                        document.getElementById('play-btn').innerText = "▶";
+                    });
+                }
+            } else {
+                audio.pause();
+                isPlaying = false;
+                document.getElementById('play-btn').innerText = "▶";
+            }
+        }
+
+        function nextSong() {
+            const nextIdx = (currentIdx + 1) % playlist.length;
+            loadSong(nextIdx);
+        }
+
+        function prevSong() {
+            const prevIdx = (currentIdx - 1 + playlist.length) % playlist.length;
+            loadSong(prevIdx);
+        }
+
+        // --- 照片上传 ---
+        function handleUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (evt) => {
+                const texture = new THREE.TextureLoader().load(evt.target.result);
+                const material = new THREE.MeshBasicMaterial({ map: texture, side: THREE.DoubleSide });
+                const mesh = new THREE.Mesh(new THREE.PlaneGeometry(1.5, 1.5), material);
+                const h = Math.random() * 5 - 2;
+                const rad = (13 - (h + 6.5)) * 0.5 + 0.8;
+                const ang = Math.random() * Math.PI * 2;
+                mesh.position.set(Math.cos(ang) * rad, h, Math.sin(ang) * rad);
+                mesh.lookAt(0, h, 0);
+                scene.add(mesh);
+                showToast("📸 照片已挂上树梢！");
+            };
+            reader.readAsDataURL(file);
+            // 重置 input，允许重复上传同一文件
+            e.target.value = '';
+        }
+
+        // --- 许愿时刻：金色特效并自动恢复 ---
+        function triggerMagic() {
+            if (!treeSystem) return;
+            const colors = treeSystem.geometry.attributes.color;
+            if (!colors || !originalColorArray) return;
+
+            showToast("✨ 许愿成功：2026 万事胜意！");
+
+            // 全部变为金色
+            for (let i = 0; i < colors.count; i++) {
+                colors.setXYZ(i, 1, 0.84, 0); // Gold
+            }
+            colors.needsUpdate = true;
+
+            // 3秒后平滑恢复原始颜色（不再刷新页面）
+            setTimeout(() => {
+                for (let i = 0; i < colors.count; i++) {
+                    const baseIdx = i * 3;
+                    colors.setXYZ(
+                        i,
+                        originalColorArray[baseIdx],
+                        originalColorArray[baseIdx + 1],
+                        originalColorArray[baseIdx + 2]
+                    );
+                }
+                colors.needsUpdate = true;
+            }, 3000);
+        }
+
+        // --- 3D 点击交互 ---
+        function onClick(e) {
+            if (e.target.tagName === 'BUTTON') return;
+            // 使用标准化的鼠标坐标
+            const mouse = new THREE.Vector2();
+            mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+            const raycaster = new THREE.Raycaster();
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(gifts, true);
+            if (intersects.length > 0) {
+                showToast("🎁 礼物里装着你的好运！");
+            }
+        }
+
+        // --- Toast 提示 ---
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.innerText = msg;
+            t.style.display = 'block';
+            clearTimeout(t._timeout);
+            t._timeout = setTimeout(() => {
+                t.style.display = 'none';
+            }, 2500);
+        }
+
+        // --- 动画循环 ---
+        function animate() {
+            requestAnimationFrame(animate);
+            const t = clock.getElapsedTime();
+
+            neonStrips.forEach((strip, i) => {
+                const hue = (t * 0.1 + i * 0.5) % 1;
+                strip.material.color.setHSL(hue, 1, 0.5);
+                strip.material.emissive.setHSL(hue, 1, 0.5);
+                strip.rotation.y = -t * 0.2;
+            });
+
+            ornaments.forEach(o => (o.rotation.y += 0.02));
+            starMesh.rotation.y = -t;
+
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        function onResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        // 祝看到这里的你圣诞快乐！如果是从微信过来的，快来找我领取神秘礼物：）
+    </script>
 </body>
 </html>
